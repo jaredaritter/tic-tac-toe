@@ -1,3 +1,4 @@
+"use strict";
 // GAMEBOARD, PLAYERS, LOGIC
 // ALL INSIDE IIFE AS ONLY NEED SINGLE INSTANCE OF GAME
 // ONE INSTANCE OF GAME BOARD SO MODULE
@@ -28,6 +29,7 @@ const gameboard = (() => {
         })
     }
 
+    // CLEARS CURRENT GAMEBOARD
     const clear = () => {
         const board = document.querySelector('.board');
         while (board.firstChild) {
@@ -39,13 +41,19 @@ const gameboard = (() => {
 
     return {render};
 
-})()
+})();
 
-const Player = function(name) {
+const Player = function(name, marker) {
     const getName = () => name;
-    return {getName};
+    const getMarker = () => marker;
+    return {getName, getMarker};
 }
 
-const logic = (() => {
-    // some logic goes here
+const gameLogic = (() => {
+    // PLAYER1 STARTS
+    // CLICK EVENT LISTENERS TO SEE CHOICE
+    // SLEEP ON IT
 })()
+
+const player1 = new Player('player1', 'X');
+const player2 = new Player('player2', 'O');
