@@ -6,24 +6,46 @@
 
 // GAME 
 
-console.log('game');
 // ANONYMOUS IFFE
 const gameboard = (() => {
-    console.log('gameboard');
+    
+    // GAMEBOARD ARRAY
     const gameboard = [
-        ' ', ' ', ' ',
-        ' ', ' ', ' ',
-        ' ', ' ', ' '
+        'X', 'X', 'X',
+        'X', 'X', 'X',
+        'X', 'X', 'X'
     ]
+
+    // RENDERS GAMEBOARD ARRAY TO SCREEN
+    const render = () => {
+        clear();
+        const board = document.querySelector('.board');
+        gameboard.forEach(cell => {
+            const choice = document.createElement('div');
+            choice.textContent = cell;
+            choice.setAttribute('class', 'cell');
+            board.appendChild(choice);
+        })
+    }
+
+    const clear = () => {
+        const board = document.querySelector('.board');
+        while (board.firstChild) {
+            board.removeChild(board.lastChild);
+        }
+    }
+
+    render();
+
+    return {render};
+
 })()
 
 const Player = function(name) {
-    console.log('player');
     const getName = () => name;
     return {getName};
 }
 
 const logic = (() => {
-    console.log('logic');
     // some logic goes here
 })()
