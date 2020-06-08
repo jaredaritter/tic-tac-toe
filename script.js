@@ -21,6 +21,7 @@
 // WILL USE BELOW FOR PATTERN *********************************
 // CLICK EVENT SENT TO GAMEBOARD
 // GAMEBOARD ARRAY UPDATES WITH CHOICE
+//  GAMEBOARD UPDATES CELL WITH NEW ARRAY INFORMATION FROM EVENT
 // GAMEBOARD SENDS NEW LAYOUT TO LOGIC
 // LOGIC CHECKS IF WIN CONDITION MET, OR IF ALL SQUARES USED (DRAW)
 // IF NOT MET THEN CHANGE PLAYER
@@ -29,18 +30,20 @@
 // GAME 
 
 // ANONYMOUS IFFE
-const gameboard = (() => {
+const display = (() => {
     
-    // GAMEBOARD ARRAY
+    // GAMEBOARD ARRAY AND TURN COUNT -------------------------------------------------------------------
+
     const gameboard = [
-        'X', 'X', 'X',
-        'X', 'X', 'X',
-        'X', 'X', 'X'
+        '', '', '',
+        '', '', '',
+        '', '', ''
     ]
 
     let turn = 1;
 
-    // RENDERS GAMEBOARD ARRAY TO SCREEN
+    // RENDERS, CLEARS, AND ADDS LISTENERS TO GAMEBOARD-----------------------------------------------------
+
     const render = () => {
         clear();
         const board = document.querySelector('.board');
@@ -55,7 +58,6 @@ const gameboard = (() => {
         })
     }
 
-    // CLEARS CURRENT GAMEBOARD
     const clear = () => {
         const board = document.querySelector('.board');
         while (board.firstChild) {
@@ -66,11 +68,19 @@ const gameboard = (() => {
     const setListeners = () => {
         const cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
-            cell.addEventListener('click', placeMarker);
+            cell.addEventListener('click', clickHappens);
         });
     }
 
-    const placeMarker = event => {
+    // FUNCTIONS TRIGGERS ON CLICK--------------------------------------------------------------------------
+
+    const clickHappens = event => {
+        updateBoard(event);
+        updateCell(event);
+        checkIfWin();
+    }
+
+    const updateBoard = event => {
         // NEEDS CONDITIONAL LOGIC TO ENSURE CANNOT PLACE IN OCCUPIED CELL
         if (turn % 2 === 1) {
             gameboard[event.target.dataset.index] = player1.getMarker();
@@ -82,19 +92,32 @@ const gameboard = (() => {
         turn++;
         // console.log(gameboard);
         console.log(turn);
-        updateCell(event);
     }
 
     const updateCell = event => {
         event.target.textContent = gameboard[event.target.dataset.index];
     }
 
+    const checkIfWin = () => {
+        console.log('test');
+    }
+
+    // PUBLIC FUNCTION TO SHOW GAMEBOARD ARRAY SAFELY------------------------------------------------
+
+    const showGameboard = () => {
+        return gameboard;
+    }
+
+    // INITIALIZE GAME BOARD AND RETURN PUBLIC INFORMATION (IF ANY)------------------------------------
+
     render();
     setListeners();
 
-    return {render};
+    return {showGameboard};
 
 })();
+
+// PLAYER CONSTRUCTOR AND INITIALIZED PLAYERS-----------------------------------------------------------
 
 const Player = function(name, marker) {
     const getName = () => name;
@@ -102,11 +125,23 @@ const Player = function(name, marker) {
     return {getName, getMarker};
 }
 
-const gameLogic = (() => {
-    // PLAYER1 STARTS
-    // CLICK EVENT LISTENERS TO SEE CHOICE
-    // SLEEP ON IT
-})()
-
 const player1 = new Player('player1', 'X');
 const player2 = new Player('player2', 'O');
+
+//--------------------------------------------------------------------------------------------------------
+
+// GOING TO USE INTERNAL FUNCTION TO GET WORKING AND MOVE OUTSIDE IF NEEDED AFTER MORE RESEARCH
+
+// const gameLogic = ()=> {
+//     console.log('test');
+//     let board = gameboard.showGameboard();
+//     console.log(board);
+//     // let gameboard = []
+//     // console.log(gameboard);
+//     // return function getGameboard(gameboard){
+//     //     const board = gameboard;
+//     // }
+//     // PLAYER1 STARTS
+//     // CLICK EVENT LISTENERS TO SEE CHOICE
+//     // SLEEP ON IT
+// };
