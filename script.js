@@ -18,6 +18,14 @@
 // LOGIC CHECKS IF WIN CONDITION HAS BEEN MET
 //  IF WIN CONDITION MET IT STOPS GAME AND NOTIFIES PLAYER
 
+// WILL USE BELOW FOR PATTERN *********************************
+// CLICK EVENT SENT TO GAMEBOARD
+// GAMEBOARD ARRAY UPDATES WITH CHOICE
+// GAMEBOARD SENDS NEW LAYOUT TO LOGIC
+// LOGIC CHECKS IF WIN CONDITION MET, OR IF ALL SQUARES USED (DRAW)
+// IF NOT MET THEN CHANGE PLAYER
+// SEND INFORMATION BACK TO GAMEBOARD TO ALLOW UPDATE OF SCREEN INFORMATION
+
 // GAME 
 
 // ANONYMOUS IFFE
@@ -30,15 +38,20 @@ const gameboard = (() => {
         'X', 'X', 'X'
     ]
 
+    let turn = 1;
+
     // RENDERS GAMEBOARD ARRAY TO SCREEN
     const render = () => {
         clear();
         const board = document.querySelector('.board');
+        let i = 0;
         gameboard.forEach(cell => {
             const choice = document.createElement('div');
             choice.textContent = cell;
             choice.setAttribute('class', 'cell');
+            choice.setAttribute('data-index', i);
             board.appendChild(choice);
+            i++
         })
     }
 
@@ -50,7 +63,34 @@ const gameboard = (() => {
         }
     }
 
+    const setListeners = () => {
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach(cell => {
+            cell.addEventListener('click', placeMarker);
+        });
+    }
+
+    const placeMarker = event => {
+        // NEEDS CONDITIONAL LOGIC TO ENSURE CANNOT PLACE IN OCCUPIED CELL
+        if (turn % 2 === 1) {
+            gameboard[event.target.dataset.index] = player1.getMarker();
+        } else if (turn % 2 === 0) {
+            gameboard[event.target.dataset.index] = player2.getMarker();
+        } else {
+            console.log('ERROR');
+        }
+        turn++;
+        // console.log(gameboard);
+        console.log(turn);
+        updateCell(event);
+    }
+
+    const updateCell = event => {
+        event.target.textContent = gameboard[event.target.dataset.index];
+    }
+
     render();
+    setListeners();
 
     return {render};
 
