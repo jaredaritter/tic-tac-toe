@@ -78,6 +78,7 @@ const display = (() => {
         updateBoard(event);
         updateCell(event);
         checkIfWin();
+        turn++;
     }
 
     const updateBoard = event => {
@@ -89,7 +90,6 @@ const display = (() => {
         } else {
             console.log('ERROR');
         }
-        turn++;
         // console.log(gameboard);
         console.log(turn);
     }
@@ -99,7 +99,47 @@ const display = (() => {
     }
 
     const checkIfWin = () => {
-        console.log('test');
+        let marker = '';
+        if (turn % 2  === 1) {
+            marker = player1.getMarker();
+        } else if (turn % 2 === 0) {
+            marker = player2.getMarker();
+        } else {
+            console.log('ERROR');
+        }
+        if (gameboard[0] === marker &&
+            gameboard[1] === marker &&
+            gameboard[2] === marker) {
+                console.log(`${marker} wins!`);
+        } else if (gameboard[3] === marker &&
+            gameboard[4] === marker &&
+            gameboard[5] === marker) {
+                console.log(`${marker} wins!`);
+        } else if (gameboard[6] === marker &&
+            gameboard[7] === marker &&
+            gameboard[8] === marker) {
+                console.log(`${marker} wins!`);
+        } else if (gameboard[0] === marker &&
+            gameboard[3] === marker &&
+            gameboard[6] === marker) {
+                console.log(`${marker} wins!`);
+        } else if (gameboard[1] === marker &&
+            gameboard[4] === marker &&
+            gameboard[7] === marker) {
+                console.log(`${marker} wins!`);
+        } else if (gameboard[2] === marker &&
+            gameboard[5] === marker &&
+            gameboard[8] === marker) {
+                console.log(`${marker} wins!`);
+        } else if (gameboard[0] === marker &&
+            gameboard[4] === marker &&
+            gameboard[8] === marker) {
+                console.log(`${marker} wins!`);
+        } else if (gameboard[2] === marker &&
+            gameboard[4] === marker &&
+            gameboard[6] === marker) {
+                console.log(`${marker} wins!`);
+        }
     }
 
     // PUBLIC FUNCTION TO SHOW GAMEBOARD ARRAY SAFELY------------------------------------------------
