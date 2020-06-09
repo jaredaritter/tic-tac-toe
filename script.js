@@ -144,6 +144,7 @@ const display = (() => {
             gameboard[6] === marker) {
                 console.log(`${marker} wins!`);
         }
+        if (turn === 9) console.log('Draw?');
     }
 
     // COMPUTER PLAY --------------------------------------------------------------------------------
