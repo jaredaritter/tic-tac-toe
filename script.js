@@ -98,6 +98,8 @@ const display = (() => {
         event.target.textContent = gameboard[event.target.dataset.index];
     }
 
+    // WIN CONDITION FUNCTION ------------------------------------------------------------------
+
     const checkIfWin = () => {
         let marker = '';
         if (turn % 2  === 1) {
