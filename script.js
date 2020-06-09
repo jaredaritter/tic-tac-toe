@@ -29,7 +29,7 @@
 
 // GAME 
 
-// ANONYMOUS IFFE
+// ANONYMOUS IIFE
 const display = (() => {
     
     // GAMEBOARD ARRAY AND TURN COUNT -------------------------------------------------------------------
@@ -41,6 +41,7 @@ const display = (() => {
     ]
 
     let turn = 1;
+    let gameOver = false;
 
     // RENDERS, CLEARS, AND ADDS LISTENERS TO GAMEBOARD-----------------------------------------------------
 
@@ -75,6 +76,9 @@ const display = (() => {
     // FUNCTIONS TRIGGERS ON CLICK--------------------------------------------------------------------------
 
     const clickHappens = event => {
+        if (gameOver) return;
+        if (event.target.textContent !== '') return;
+        // NEEDS CONDITIONAL TO SEPERATE CLICK EVENT FROM COMPUTER INPUT
         updateBoard(event);
         updateCell(event);
         checkIfWin();
@@ -83,8 +87,6 @@ const display = (() => {
     }
 
     const updateBoard = event => {
-        // NEEDS CONDITIONAL LOGIC TO ENSURE CANNOT PLACE IN OCCUPIED CELL
-        // NEEDS CONDITIONAL TO SEPERATE CLICK EVENT FROM COMPUTER INPUT
         if (turn % 2 === 1) {
             gameboard[event.target.dataset.index] = player1.getMarker();
         } else if (turn % 2 === 0) {
@@ -103,7 +105,18 @@ const display = (() => {
     // WIN CONDITION FUNCTION ------------------------------------------------------------------
 
     const checkIfWin = () => {
+        const wins = {
+            firstRow: [0, 1, 2],
+            secondRow: [3, 4, 5],
+            thirdRow: [6, 7, 8], 
+            firstColumn: [0, 3, 6],
+            secondColumn: [1, 4, 7],
+            thirdColumn: [2, 5, 8],
+            downRight: [0, 4, 8],
+            downLeft: [2, 4, 6]
+        }
         let marker = '';
+
         if (turn % 2  === 1) {
             marker = player1.getMarker();
         } else if (turn % 2 === 0) {
@@ -111,39 +124,17 @@ const display = (() => {
         } else {
             console.log('ERROR');
         }
-        if (gameboard[0] === marker &&
-            gameboard[1] === marker &&
-            gameboard[2] === marker) {
-                console.log(`${marker} wins!`);
-        } else if (gameboard[3] === marker &&
-            gameboard[4] === marker &&
-            gameboard[5] === marker) {
-                console.log(`${marker} wins!`);
-        } else if (gameboard[6] === marker &&
-            gameboard[7] === marker &&
-            gameboard[8] === marker) {
-                console.log(`${marker} wins!`);
-        } else if (gameboard[0] === marker &&
-            gameboard[3] === marker &&
-            gameboard[6] === marker) {
-                console.log(`${marker} wins!`);
-        } else if (gameboard[1] === marker &&
-            gameboard[4] === marker &&
-            gameboard[7] === marker) {
-                console.log(`${marker} wins!`);
-        } else if (gameboard[2] === marker &&
-            gameboard[5] === marker &&
-            gameboard[8] === marker) {
-                console.log(`${marker} wins!`);
-        } else if (gameboard[0] === marker &&
-            gameboard[4] === marker &&
-            gameboard[8] === marker) {
-                console.log(`${marker} wins!`);
-        } else if (gameboard[2] === marker &&
-            gameboard[4] === marker &&
-            gameboard[6] === marker) {
-                console.log(`${marker} wins!`);
+
+        for (const prop in wins) {
+            if (gameboard[wins[prop][0]] === marker &&
+                gameboard[wins[prop][1]] === marker &&
+                gameboard[wins[prop][2]] === marker) {
+                    console.log(`${marker} wins!`);
+                    gameOver = true;
+                    break;
+            }
         }
+
         if (turn === 9) console.log('Draw?');
     }
 
