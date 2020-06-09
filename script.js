@@ -79,14 +79,16 @@ const display = (() => {
         updateCell(event);
         checkIfWin();
         turn++;
+        // computerPlay();
     }
 
     const updateBoard = event => {
         // NEEDS CONDITIONAL LOGIC TO ENSURE CANNOT PLACE IN OCCUPIED CELL
+        // NEEDS CONDITIONAL TO SEPERATE CLICK EVENT FROM COMPUTER INPUT
         if (turn % 2 === 1) {
             gameboard[event.target.dataset.index] = player1.getMarker();
         } else if (turn % 2 === 0) {
-            gameboard[event.target.dataset.index] = player2.getMarker();
+            gameboard[event.target.dataset.index] = player2.getMarker(); 
         } else {
             console.log('ERROR');
         }
@@ -142,6 +144,14 @@ const display = (() => {
             gameboard[6] === marker) {
                 console.log(`${marker} wins!`);
         }
+    }
+
+    // COMPUTER PLAY --------------------------------------------------------------------------------
+    
+    const computerPlay = () => {
+        const compChoice = 1;
+        updateBoard(compChoice);
+        console.log(gameboard);
     }
 
     // PUBLIC FUNCTION TO SHOW GAMEBOARD ARRAY SAFELY------------------------------------------------
