@@ -34,16 +34,22 @@ const display = (() => {
     
     // GAMEBOARD ARRAY AND TURN COUNT -------------------------------------------------------------------
 
-    const gameboard = [
+    let gameboard = [
         '', '', '',
         '', '', '',
         '', '', ''
-    ]
+    ];
 
     let turn = 1;
     let gameOver = false;
 
     // RENDERS, CLEARS, AND ADDS LISTENERS TO GAMEBOARD-----------------------------------------------------
+
+    const init = () => {
+        setDefaults();
+        render();
+        setListeners();
+    }
 
     const render = () => {
         clear();
@@ -73,6 +79,15 @@ const display = (() => {
         });
     }
 
+    const setDefaults = () => {
+        gameboard = [
+            '', '', '',
+            '', '', '',
+            '', '', ''
+        ];
+        turn = 1;
+        gameOver = false;
+    }
     // FUNCTIONS TRIGGERS ON CLICK--------------------------------------------------------------------------
 
     const clickHappens = event => {
@@ -81,7 +96,7 @@ const display = (() => {
         // NEEDS CONDITIONAL TO SEPERATE CLICK EVENT FROM COMPUTER INPUT
         updateBoard(event);
         updateCell(event);
-        checkIfWin();
+        if (turn > 4) checkIfWin(); // NO WINS CAN OCCUR BEFORE 5TH TURN
         turn++;
         // computerPlay();
     }
@@ -105,6 +120,7 @@ const display = (() => {
     // WIN CONDITION FUNCTION ------------------------------------------------------------------
 
     const checkIfWin = () => {
+    
         const wins = {
             firstRow: [0, 1, 2],
             secondRow: [3, 4, 5],
@@ -154,10 +170,9 @@ const display = (() => {
 
     // INITIALIZE GAME BOARD AND RETURN PUBLIC INFORMATION (IF ANY)------------------------------------
 
-    render();
-    setListeners();
+    init();
 
-    return {showGameboard};
+    return {showGameboard, init};
 
 })();
 
